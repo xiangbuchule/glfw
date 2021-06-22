@@ -1,4 +1,11 @@
 
+if(BUILD_SHARED_LIBS)
+# 设置glfw库文件的输出目录
+    set(LIBRARY_OUTPUT_PATH ${PublicSharedLibraryTargetPath})
+else()
+# 设置glfw库文件的输出目录
+    set(LIBRARY_OUTPUT_PATH ${PublicStaticLibraryTargetPath})
+endif()
 add_library(glfw "${GLFW_SOURCE_DIR}/include/GLFW/glfw3.h"
                  "${GLFW_SOURCE_DIR}/include/GLFW/glfw3native.h"
                  internal.h mappings.h context.c init.c input.c monitor.c
@@ -192,10 +199,10 @@ if (BUILD_SHARED_LIBS)
             set_target_properties(glfw PROPERTIES PREFIX "")
 
             # Add a suffix to the import library to avoid naming conflicts
-            set_target_properties(glfw PROPERTIES IMPORT_SUFFIX "dll.a")
+            set_target_properties(glfw PROPERTIES IMPORT_SUFFIX ".a")
         else()
             # Add a suffix to the import library to avoid naming conflicts
-            set_target_properties(glfw PROPERTIES IMPORT_SUFFIX "dll.lib")
+            set_target_properties(glfw PROPERTIES IMPORT_SUFFIX ".lib")
         endif()
 
         target_compile_definitions(glfw INTERFACE GLFW_DLL)
